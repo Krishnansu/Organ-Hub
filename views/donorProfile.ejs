@@ -19,9 +19,11 @@
             <div class="col col-lg-6 mb-4 mb-lg-0">
               <div class="card mb-3" style="border-radius: .5rem;">
                 <div class="row g-0">
+                  <% var x=0;%>
                   <%if(foundDonor != null){%>
-                    <%foundDonor.forEach(function(donor){%>
-                      <%if(String(donor.email)== String(email)){%>
+                    <%foundDonor.forEach(function(donor,index){%>
+                      <%if(String(donor.email)=== String(email) && x===0){%>
+                        <%x+=1%>
                         <div class="col-md-4 gradient-custom text-center text-white"
                     style="border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
                     <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
@@ -44,7 +46,7 @@
                       <div class="row pt-1">
                         <div class="col-6 mb-3">
                           <h6>Email</h6>
-                          <p class="text-muted"><%=donor.email%></p>
+                          <p class="text-muted"><%=index%></p>
                         </div>
                         <div class="col-6 mb-3">
                           <h6>Phone</h6>

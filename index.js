@@ -11,13 +11,6 @@ const saltRounds = 10;
 const password = "shreyansh";
 
 
-//   bcrypt
-//   .compare(password, a)
-//   .then(res => {
-//     console.log("Matching") // return true
-//   })
-//   .catch(err => console.error(err.message))
-
 app.use(cookieParser());
 app.use(session({
     resave: false,
@@ -31,11 +24,13 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
+//Connect Database
 
 mongoose.set("strictQuery",false);
 mongoose.connect("mongodb+srv://indros0603:chIDkDUjLGg7HLHY@cluster0.ntmh4fz.mongodb.net/OrganHubDB",{ useNewUrlParser: true });
 
-//Replace this with our schema
+
+// Schemas for various purposes
 const HospitalSchema = new mongoose.Schema({
     hospitalName: String,
     state: String,
@@ -99,6 +94,7 @@ const reportSchema = {
 
 }
 
+//Hashing to protect passwords
 HospitalSchema.methods.generateHash = function(password) {
     return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
 };
@@ -107,30 +103,55 @@ HospitalSchema.methods.validPassword = function(password) {
     return bcrypt.compareSync(password, this.password);
 };
 
-const Hospital = mongoose.model("Hospital", HospitalSchema); //add collection name here
+
+const Hospital = mongoose.model("Hospital", HospitalSchema);
 const Donor = mongoose.model("Donor",DonorSchema);
 const Alerts = mongoose.model("Alerts",AlertsSchema);
 const Organs = mongoose.model("Organs",OrgansSchema);
 const Info = mongoose.model("Ngo",ngoSchema);
 const Report = mongoose.model("Report",reportSchema);
 
+
+//Creating routes
+
+//Render Homepage
 app.get("/", function(req, res) {
     res.render("home");
 });
 
-//    HOSPITAL
+
+
+//General Signup page
+app.get("/signUp",function(req,res){
+    res.render("signUp");
+});
+
+//Logout
+app.get("/logout",function(req,res){
+    req.session.destroy();
+    res.redirect("/")
+});
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                            //    HOSPITAL
+
+//Hospital Login
 app.get("/loginHospital", function(req, res) {
     if(req.session.hospital){
         res.render("hospitalHome");
     }else{
-        res.render("loginHospital");
+        res.render("loginHospital2");
     }
 });
 
+//Render Hospital Signup page
 app.get("/signUpHospital", function(req, res) {
-    res.render("SignUpHospital");
+    res.render("SignUpHospital2");
 });
 
+//Render Hospital Homepage
 app.get("/hospitalHome", function(req, res) {
     if(req.session.hospital){
         console.log(req.session.hospital);
@@ -142,6 +163,7 @@ app.get("/hospitalHome", function(req, res) {
     
 });
 
+//Hospital Signup
 app.post("/SignUpHospital", function(req, res) {
     const saltRounds = 10;
     var hashedPassword = "";
@@ -172,7 +194,7 @@ app.post("/SignUpHospital", function(req, res) {
     console.log(newUser.password);
 
     newUser.save().then(()=>{
-        res.render("loginHospital");
+        res.render("loginHospital2");
         console.log("New Hospital " + req.body.hospName + " account has been registered");
     }).catch((err)=>{
         console.log(err);
@@ -180,7 +202,7 @@ app.post("/SignUpHospital", function(req, res) {
 });
 
 
-
+//Hospital Login
 app.post("/loginHospital", function(req, res){
     const email = req.body.email;
     const password = req.body.password;
@@ -192,7 +214,7 @@ app.post("/loginHospital", function(req, res){
         else{
             if(foundUser){
                 if(!foundUser.validPassword(req.body.password)){
-                    res.render("loginHospitalerr");
+                    res.render("loginHospitalerr2");
                 }else {
                     req.session.hospital= foundUser;
                     req.session.save();
@@ -201,100 +223,32 @@ app.post("/loginHospital", function(req, res){
                 }
             }else{
                 
-                res.render("loginHospitalerr");
+                res.render("loginHospitalerr2");
             }
         }
         
     })
 });
 
-app.get("/logout",function(req,res){
-    req.session.destroy();
-    res.redirect("/")
-});
-
-app.get("/signUp",function(req,res){
-    res.render("signUp");
-});
-
-
-//   DONOR
 
 
 
-
-app.get("/loginDonor", function(req, res) {
-    if(req.session.donor){
-        res.render("donorHome");
+//Render Hospital Profile page
+app.get("/profileHospital",function(req,res){
+    if(req.session.hospital){
+        const email = req.session.hospital.email;
+        Hospital.find({},function(err,foundHospital){
+            console.log(foundHospital);
+            res.render("profileHospital",{foundHospital:foundHospital,email:email});
+        });
     }else{
-        res.render("donorLogin");
+        res.render("loginHospital2");
     }
-});
-
-app.get("/signUpDonor", function(req, res) {
-    res.render("signUpDonor");
-});
-
-app.get("/donorHome", function(req, res) {
-    if(req.session.donor){
-        console.log(req.session.hospital);
-        res.render("donorHome");
-    }
-    else{
-        res.redirect("/loginDonor");
-    }
+    
     
 });
 
-app.post("/signUpDonor", function(req, res) {
-    const newUser = new Donor({
-        donorName: req.body.title + req.body.donorName,
-        state:  req.body.stt,
-        city:  req.body.city,
-        contactNo: req.body.contact,
-        email: req.body.email,
-        password: req.body.password,
-        age: req.body.age
-    });
-
-    newUser.save().then(()=>{
-        res.render("donorLogin");
-        console.log("New Donor " + req.body.donorName + " account has been registered");
-    }).catch((err)=>{
-        console.log(err);
-    })
-});
-
-app.post("/loginDonor", function(req, res){
-    const email = req.body.email;
-    const password = req.body.password;
-
-    Donor.findOne({email: email},function(err,foundUser){
-        if(err){
-            console.log(err);
-        }
-        else{
-            if(foundUser){
-                if(!(String(foundUser.password) === String(password))){
-                    res.render("donorLoginerr");
-                }else {
-                    req.session.donor= foundUser;
-                    req.session.save();
-                    console.log("User " + email + " has been successfully logged in");
-                    res.redirect("/donorHome");
-                }
-            }else{
-                
-                res.render("donorLoginerr");
-            }
-        }
-        
-    })
-
-});
-
-//Hospital page
-
+//Hospital Request page
 app.get("/request",function(req,res){
     if(req.session.hospital){
         res.render('hospitalRequest');
@@ -306,6 +260,7 @@ app.get("/request",function(req,res){
 
 });
 
+//Hospital Address change page
 app.get("/address",function(req,res){
     if(req.session.hospital){
         res.render("hospitalAddress");
@@ -317,7 +272,7 @@ app.get("/address",function(req,res){
 });
 
 
-
+//Hospital Alerts page
 app.get("/alert",function(req,res){
     if(req.session.hospital){
         const email = req.session.email;
@@ -343,7 +298,21 @@ app.get("/alert",function(req,res){
 });
 
 
+//Render Hospital Database page
+app.get("/database",function(req,res){
+    if(req.session.hospital){
+        res.render("hospitalDatabase");
+    }
+    else{
+        res.redirect("/loginHospital");
+    }
+    
+});
 
+
+
+
+//Hospital Database show
 app.get("/show",function(req,res){
     if(req.session.hospital){
         const email= req.session.hospital.email;
@@ -366,6 +335,7 @@ app.get("/show",function(req,res){
     
 });
 
+//Hospital Database remove
 app.post("/show",function(req,res){
 
     const Id = req.body.del;
@@ -382,33 +352,8 @@ app.post("/show",function(req,res){
     });
 })
 
-// app.post("/show",function(req,res){
-//     // const query = {$text: {$search: req.body.search}};
 
-//     const projection={
-//         _id: 0,
-//         organ: 1,
-//         date: 0,
-//         time: 0,
-//         bloodgroup: 1,
-//         parameters: 0,
-//         email: 0
-
-//     };
-
-//     const cursor = Organs.findOne({$text: {$search: req.body.search}}, {projection: {_id: 0,
-//         organ: 1,
-//         date: 0,
-//         time: 0,
-//         bloodgroup: 1,
-//         parameters: 0,
-//         email: 0}});
-//     cursor.stream().on("data",doc => console.log(doc));
-
-// });
-
-
-
+//Render Hospital Database Add page
 app.get("/organAdd",function(req,res){
     if(req.session.hospital){
         res.render("organAdd");
@@ -419,22 +364,7 @@ app.get("/organAdd",function(req,res){
     
 });
 
-app.post("/hospitalRequest", function(req, res) {
-    const newAlert = new Alerts({
-        donorOrgan : req.body.organ,
-        donorUrgency : req.body.urgency,
-        donorText : req.body.text,
-        email: req.session.hospital.email
-    });
-
-    newAlert.save().then(()=>{
-        res.render("hospitalRequest");
-        console.log("New Alert " + req.body.organ + " has been made");
-    }).catch((err)=>{
-        console.log(err);
-    })
-});
-
+//Hospital Database add
 app.post("/organAdd", function(req, res) {
     const newOrgan = new Organs({
         organ: req.body.organs,
@@ -453,7 +383,109 @@ app.post("/organAdd", function(req, res) {
     })
 });
 
+//Hospital Organ Request Form
+app.post("/hospitalRequest", function(req, res) {
+    const newAlert = new Alerts({
+        donorOrgan : req.body.organ,
+        donorUrgency : req.body.urgency,
+        donorText : req.body.text,
+        email: req.session.hospital.email
+    });
 
+    newAlert.save().then(()=>{
+        res.render("hospitalRequest");
+        console.log("New Alert " + req.body.organ + " has been made");
+    }).catch((err)=>{
+        console.log(err);
+    })
+});
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                                                  //   DONOR
+
+
+//Render Donor login page
+app.get("/loginDonor", function(req, res) {
+    if(req.session.donor){
+        res.render("donorHome");
+    }else{
+        res.render("donorLogin2");
+    }
+});
+
+//Render Donor signup page
+app.get("/signUpDonor", function(req, res) {
+    res.render("signUpDonor2");
+});
+
+
+//Render Donor Homepage
+app.get("/donorHome", function(req, res) {
+    if(req.session.donor){
+        console.log(req.session.hospital);
+        res.render("donorHome");
+    }
+    else{
+        res.redirect("/loginDonor");
+    }
+    
+});
+
+//Donor Signup
+app.post("/signUpDonor", function(req, res) {
+    const newUser = new Donor({
+        donorName: req.body.title + req.body.donorName,
+        state:  req.body.stt,
+        city:  req.body.city,
+        contactNo: req.body.contact,
+        email: req.body.email,
+        password: req.body.password,
+        age: req.body.age
+    });
+
+    newUser.save().then(()=>{
+        res.render("donorLogin2");
+        console.log("New Donor " + req.body.donorName + " account has been registered");
+    }).catch((err)=>{
+        console.log(err);
+    })
+});
+
+//Donor Login
+app.post("/loginDonor", function(req, res){
+    const email = req.body.email;
+    const password = req.body.password;
+
+    Donor.findOne({email: email},function(err,foundUser){
+        if(err){
+            console.log(err);
+        }
+        else{
+            if(foundUser){
+                if(!(String(foundUser.password) === String(password))){
+                    res.render("donorLoginerr2");
+                }else {
+                    req.session.donor= foundUser;
+                    req.session.save();
+                    console.log("User " + email + " has been successfully logged in");
+                    res.redirect("/donorHome");
+                }
+            }else{
+                
+                res.render("donorLoginerr2");
+            }
+        }
+        
+    })
+
+});
+
+
+
+//Render Near You page
 app.get("/nearYou", function(req,res){
     if(req.session.donor){
         const city = req.session.donor.city;
@@ -470,72 +502,24 @@ app.get("/nearYou", function(req,res){
             
         });
     }else{
-        res.render("donorLogin");
+        res.render("donorLogin2");
     }
     
     
 })
 
-app.get("/ngo", function(req,res){
-    res.render("NGO");
-}) 
 
-app.post("/ngo", function(req,res){
-    const ngoInfo = new Info({
-        name: req.body.ngoName,
-        regNo: req.body.regNo,
-        ngoWebsite: req.body.ngoWebsite,
-        ngoEmail: req.body.email,
-        ngoProposal: req.body.ngoProposal
-    })
-
-    ngoInfo.save().then(()=>{
-        console.log("Ngo " + req.body.ngoName + " is saved");
-        res.render("NGO");
-    }).catch((err)=>{
-        console.log(err);
-    })
-})
-
-
-
-
-
-app.get("/database",function(req,res){
-    if(req.session.hospital){
-        res.render("hospitalDatabase");
-    }
-    else{
-        res.redirect("/loginHospital");
-    }
-    
-});
-
-app.get("/profileHospital",function(req,res){
-    if(req.session.hospital){
-        const email = req.session.hospital.email;
-        Hospital.find({},function(err,foundHospital){
-            console.log(foundHospital);
-            res.render("profileHospital",{foundHospital:foundHospital,email:email});
-        });
-    }else{
-        res.render("loginHospital");
-    }
-    
-    
-});
-
-// Donor nav bar
-
+//Render Donor Forms page
 app.get("/donorForm",function(req,res){
     if(req.session.donor){
         res.render("donorForms");
     }else{
-        res.render("donorLogin");
+        res.render("donorLogin2");
     }
     
 });
 
+//Render Donor profile page
 app.get("/donorProfile",function(req,res){
     if(req.session.donor){
         const email = req.session.donor.email;
@@ -544,12 +528,13 @@ app.get("/donorProfile",function(req,res){
             res.render("donorProfile",{foundDonor:foundDonor, email:email});
         });
     }else{
-        res.render("donorLogin");
+        res.render("donorLogin2");
     }
     
     
 });
 
+//Render Donor Reports page
 app.get("/donorReports",function(req,res){
     if(req.session.donor){
         const email = req.session.donor.email;
@@ -558,12 +543,13 @@ app.get("/donorReports",function(req,res){
             res.render("donorReports",{foundReport:foundReport, email:email});
         });
     }else{
-        res.render("donorLogin");
+        res.render("donorLogin2");
     }
     
-
 });
 
+
+//Donor Reports submission
 app.post("/Reports",function(req,res){
     const newReport = new Report({
         email: req.session.donor.email,
@@ -581,11 +567,39 @@ app.post("/Reports",function(req,res){
     })
 });
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                            // NGO
+                                    
+//Render NGO Form
+app.get("/ngo", function(req,res){
+    res.render("NGO2");
+}) 
+
+//NGO form post
+app.post("/ngo", function(req,res){
+    const ngoInfo = new Info({
+        name: req.body.ngoName,
+        regNo: req.body.regNo,
+        ngoWebsite: req.body.ngoWebsite,
+        ngoEmail: req.body.email,
+        ngoProposal: req.body.ngoProposal
+    })
+
+    ngoInfo.save().then(()=>{
+        console.log("Ngo " + req.body.ngoName + " is saved");
+        res.render("NGO2");
+    }).catch((err)=>{
+        console.log(err);
+    })
+})
+
+//Render Awareness page
+
 app.get("/awareness",function(req,res){
     res.render("organDonationAwareness");
 })
-
-
 
 
 

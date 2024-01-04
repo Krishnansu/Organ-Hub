@@ -1,0 +1,268 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="cities.js"></script>
+
+</head>
+<body>
+    <style>
+        @media (min-width: 1025px) {
+.h-custom {
+height: 100vh !important;
+}
+}
+.card-registration .select-input.form-control[readonly]:not([disabled]) {
+font-size: 1rem;
+line-height: 2.15;
+padding-left: .75em;
+padding-right: .75em;
+}
+.card-registration .select-arrow {
+top: 13px;
+}
+
+.gradient-custom-2 {
+/* fallback for old browsers */
+background: #d3ccff;
+
+/* Chrome 10-25, Safari 5.1-6 */
+background: -webkit-linear-gradient(to right, #d3ccff,#d3ccff);
+
+/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+background: linear-gradient(to right, #d3ccff,#d3ccff);
+}
+
+.bg-indigo {
+background-color: #4835d4;
+}
+@media (min-width: 992px) {
+.card-registration-2 .bg-indigo {
+border-top-right-radius: 15px;
+border-bottom-right-radius: 15px;
+}
+}
+@media (max-width: 991px) {
+.card-registration-2 .bg-indigo {
+border-bottom-left-radius: 15px;
+border-bottom-right-radius: 15px;
+}
+}
+    </style>
+    <section class="h-100 h-custom gradient-custom-2">
+        <form class="hospitalForm" method="post" action="/SignUpHospital">
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12">
+              <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+                <div class="card-body p-0">
+                  <div class="row g-0">
+                    <div class="col-lg-6">
+                      <div class="p-5">
+                        <h3 class="fw-normal mb-5" style="color: #4835d4;">Nodal Officer Details</h3>
+      
+      
+                        <div class="row">
+                          <div class="col-md-6 mb-2 pb-1">
+      
+                            <select name="title" class="form-control form-control-lg">
+                                <option value="Mr."> Mr.</option>
+                                <option value="Mrs."> Mrs.</option>
+                                <option value="Miss"> Miss</option>
+                                <option value="Ms."> Ms.</option>
+                                <option value="Dr." selected> Dr.</option>
+                                </select>
+                              <!-- <label class="form-label" for="form3Examplev3">Title</label> -->
+      
+                          </div>
+                          <div class="col-md-6 mb-2 pb-1">
+      
+                            <div class="form-outline">
+                              <input name="nodalOfficerName" type="text" id="nodalOfficerName" class="form-control form-control-lg" />
+                              <label class="form-label" for="form3Examplev3">Full name</label>
+                            </div>
+      
+                          </div>
+                        </div>
+      
+                
+      
+                        <div class="mb-2 pb-1">
+                          <div class="form-outline">
+                            <input name="specialization" type="text" id="nodalOfficerSpecialization" class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Examplev4">Specialization</label>
+                          </div>
+                        </div>
+
+                        <div class="mb-2 pb-1">
+                            <div class="form-outline">
+                              <input type="text" name="nodalOfficerAddress" id="nodalOfficerAddress" class="form-control form-control-lg" />
+                              <label class="form-label" for="form3Examplev4">Address</label>
+                            </div>
+                          </div>
+
+                          <div class="mb-2 pb-1">
+                            <div class="form-outline">
+                              <input name="nodalOfficerContactNo" type="number" id="nodalOfficerContactNo" class="form-control form-control-lg" />
+                              <label class="form-label" for="form3Examplev4">Contact No.</label>
+                            </div>
+                          </div>
+
+                          <div class="mb-2 pb-1">
+                            <div class="form-outline">
+                              <input name="nodalOfficerEmail" type="email" id="nodalOfficerEmail" class="form-control form-control-lg" />
+                              <label class="form-label" for="form3Examplev4">Email</label>
+                            </div>
+                          </div>
+
+                          <div class="mb-2 pb-1">
+                            <div class="form-outline">
+                              <input name="hospitalPassword" type="password" id="hospitalPassword" class="form-control form-control-lg" />
+                              <label class="form-label" for="form3Examplev4">Password</label>
+                            </div>
+                          </div>
+      
+      
+                      </div>
+                    </div>
+                    <div class="col-lg-6 bg-indigo text-white">
+                      <div class="p-5">
+                        <h3 class="fw-normal mb-5">Hospital Details</h3>
+
+                        <div class="row">
+                            <div class="col-md-8 mb-2 pb-1">
+        
+                                <div class="form-outline form-white">
+                                    <input name="hospName" type="text" id="form3Examplea3" class="form-control form-control-lg" />
+                                    <label class="form-label" for="form3Examplea3">Hospital Name</label>
+                                  </div>
+        
+                            </div>
+                            <div class="col-md-4 mb-2 pb-1">
+        
+                                <div class="form-outline form-white">
+                                    <input type="text" id="form3Examplea6" class="form-control form-control-lg" />
+                                    <label class="form-label" for="form3Examplea6">Hospital Reg. No.</label>
+                                  </div>
+        
+                            </div>
+                          </div>
+
+                          
+                          <div class="row">
+                            <div class="col-md-5 mb-2 pb-1">
+        
+                              <div class="form-outline form-white">
+                                <select onchange="print_city('state', this.selectedIndex);" id="sts" name ="stt" class="form-control" required></select>
+                              </div>
+        
+                            </div>
+                            <div class="col-md-7 mb-2 pb-1">
+        
+                              <div class="form-outline form-white">
+                                <select id ="state" class="form-control" name="city" required></select>
+                              </div>
+        
+                            </div>
+                          </div>
+
+                        
+      
+                        <div class="mb-2 pb-1">
+                          <div class="form-outline form-white">
+                            <input name="hospitalAddress" type="text" id="form3Examplea3" class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Examplea3">Address</label>
+                          </div>
+                        </div>
+      
+                        <div class="row">
+                          <div class="col-md-5 mb-2 pb-1">
+      
+                            <div class="form-outline form-white">
+                              <input name="pincode" type="number" id="form3Examplea4" class="form-control form-control-lg" />
+                              <label class="form-label" for="form3Examplea4">Zip Code</label>
+                            </div>
+      
+                          </div>
+                          <div class="col-md-7 mb-2 pb-1">
+      
+                            <div class="form-outline form-white">
+                              <input name="town" type="text" id="form3Examplea5" class="form-control form-control-lg" />
+                              <label class="form-label" for="form3Examplea5">Town/Village</label>
+                            </div>
+      
+                          </div>
+                        </div>
+
+                          <div class="row">
+                            <div class="col-md-5 mb-2 pb-1">
+        
+                                <div class="form-outline form-white">
+                                    <input name="contactNo" type="text" id="hospitalContactNo" class="form-control form-control-lg" />
+                                    <label class="form-label" for="form3Examplea6">Contact No.</label>
+                                  </div>
+        
+                            </div>
+                            <div class="col-md-7 mb-2 pb-1">
+        
+                                <div class="form-outline form-white">
+                                    <input name="email" type="email" id="hospitalEmail" class="form-control form-control-lg" />
+                                    <label class="form-label" for="form3Examplea6">Email</label>
+                                  </div>
+        
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-5 mb-2 pb-1">
+        
+                                <div class="form-outline form-white">
+                                    <input name="hospitalWebsite" type="text" id="hospitalWebsite" class="form-control form-control-lg" />
+                                    <label class="form-label" for="form3Examplea9">Website</label>
+                                  </div>
+        
+                            </div>
+                            <div class="col-md-7 mb-2 pb-1">
+        
+                                <div class="form-outline form-white">
+                                    <input name="hospitalLogo" type="text" id="hospitalLogo" class="form-control form-control-lg" />
+                                    <label class="form-label" for="form3Examplea9">Image link of Hospital logo</label>
+                                  </div>
+        
+                            </div>
+                          </div>
+            
+      
+                        <div class="form-check d-flex justify-content-start mb-2 pb-3">
+                          <input class="form-check-input me-3" type="checkbox" value="" id="form2Example3c" />
+                          <label class="form-check-label text-white" for="form2Example3">
+                            I do accept that the above details are correct and any mismatch with official data could lead to termination of registration and legal repercussions. 
+                          </label>
+                        </div>
+      
+                        <!-- <button type="submit" class="btn btn-light btn-lg"
+                          data-mdb-ripple-color="dark">Register</button> -->
+
+                          <div class="text-center text-lg-start mt-4 pt-2">
+                            <button type="submit" class="btn btn-light btn-lg" >Register</button>
+                            <p class="small fw-bold mt-2 pt-1 mb-0">Already have an account? <a href="/loginHospital"
+                                class="link-danger">Login</a></p>
+                          </div>
+      
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </form>
+      </section>
+  <script language="javascript">print_state("sts");</script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

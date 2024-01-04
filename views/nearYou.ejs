@@ -57,16 +57,18 @@
         </nav>
     
     </section>
-    <%if(foundHospitals!= null){%>
-      <%foundHospitals.forEach(function(hospital){%>
-        <%if(String(hospital.city)=== String(city)){%>
+    <h1 style="text-align: center;" class="mb-4">Showing Hospitals Near You</h1>
+    
 <section>
   
   <div class="album py-5 bg-body-tertiary">
-    <h1 style="text-align: center;" class="mb-4">Showing Hospitals Near You</h1>
+    
     <div class="container">
 
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <%if(foundHospitals!= null){%>
+          <%foundHospitals.forEach(function(hospital){%>
+            <%if(String(hospital.city)=== String(city)){%>
         <div class="col">
           <div class="card ">
             <!-- <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="https://seekvectorlogo.net/wp-content/uploads/2019/04/apollo-hospitals-vector-logo.png" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title></svg> -->
@@ -78,25 +80,28 @@
             </div>
           </div>
         </div>
+        <%}%>
+        <%})%>
+        <%}%>
         
       </div>
     </div>
   </div>
 
 </section>
-  <%}%>
-  <%})%>
-  <%}%>
-  <%if(foundHospitals!= null){%>
-    <%foundHospitals.forEach(function(hospital){%>
-      <%if(String(hospital.state)=== String(state)){%>
-<section>
+<!-- <h1 style="text-align: center;" class="mb-4">Showing Hospitals Near You</h1> -->
 
+
+<section>
+  
 <div class="album py-5 bg-body-tertiary">
-  <h1 style="text-align: center;" class="mb-4">Showing Hospitals Near You</h1>
+  
   <div class="container">
 
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+      <%if(foundHospitals!= null){%>
+        <%foundHospitals.forEach(function(hospital){%>
+          <%if(String(hospital.state)=== String(state)){%>
       <div class="col">
         <div class="card ">
           <!-- <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="https://seekvectorlogo.net/wp-content/uploads/2019/04/apollo-hospitals-vector-logo.png" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title></svg> -->
@@ -108,15 +113,16 @@
           </div>
         </div>
       </div>
+      <%}%>
+<%})%>
+<%}%>
       
     </div>
   </div>
 </div>
 
 </section>
-<%}%>
-<%})%>
-<%}%>
+
 
 
 

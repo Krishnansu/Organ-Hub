@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="cities.js"></script>
+
+</head>
+<body>
+    <style>
+        @media (min-width: 1025px) {
+.h-custom {
+height: 100vh !important;
+}
+}
+.card-registration .select-input.form-control[readonly]:not([disabled]) {
+font-size: 1rem;
+line-height: 2.15;
+padding-left: .75em;
+padding-right: .75em;
+}
+.card-registration .select-arrow {
+top: 13px;
+}
+
+.gradient-custom-2 {
+/* fallback for old browsers */
+background: #d3ccff;
+
+/* Chrome 10-25, Safari 5.1-6 */
+background: -webkit-linear-gradient(to right, #d3ccff,#d3ccff);
+
+/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+background: linear-gradient(to right, #d3ccff,#d3ccff);
+}
+
+.bg-indigo {
+background-color: #4835d4;
+}
+@media (min-width: 992px) {
+.card-registration-2 .bg-indigo {
+border-top-right-radius: 15px;
+border-bottom-right-radius: 15px;
+}
+}
+@media (max-width: 991px) {
+.card-registration-2 .bg-indigo {
+border-bottom-left-radius: 15px;
+border-bottom-right-radius: 15px;
+}
+}
+.brandName
+{
+    color: #4200FF;
+    padding-bottom: 1rem;
+    font-size: 5rem;
+    background-image: -webkit-linear-gradient(0deg, #4200FF 0%,#AD84E3 76%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    text-fill-color: transparent;
+    -webkit-text-fill-color: transparent;
+text-align: center;}
+
+
+    .welcome
+    {
+        color: #4200FF;
+        font-size: 3rem;
+        text-align: center;
+    }
+    </style>
+    <section class="h-100 h-custom gradient-custom-2">
+        <form class="hospitalForm" method="post" action="/NGO">
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-12">
+              <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+                <div class="card-body p-0">
+                  <div class="row g-0">
+                    <div class="col-lg-6">
+                      <div class="p-5">
+
+                        <a href="/" class="mb-5" style="color: black; margin-bottom: 3rem;">&larr; Back to Home</a>
+                        <img src="/images/Rectangle 82.png" style="width: -webkit-fill-available;" alt="" >
+      
+                      </div>
+                    </div>
+                    <div class="col-lg-6 bg-indigo text-white">
+                      <div class="p-5">
+                        <h3 class="fw-normal mb-5">NGO Details</h3>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-2 pb-1">
+                                <div class="form-outline">
+                                    <input name="donorName" type="text" id="donorName" class="form-control form-control-lg" />
+                                    <label class="form-label" for="form3Examplev3">Name of NGO</label>
+                                  </div>
+                        
+                            </div>
+                            <div class="col-md-6 mb-2 pb-1">
+                                <div class="form-outline">
+                                    <input name="number" type="text" id="donorEmail" class="form-control form-control-lg" />
+                                    <label class="form-label" for="form3Examplev4">Registration No.</label>
+                                  </div>
+                              
+        
+                            </div>
+                          </div>
+
+
+                          
+                          <div class="row">
+                            <div class="col-md-5 mb-2 pb-1">
+        
+                              <div class="form-outline form-white">
+                                <select onchange="print_city('state', this.selectedIndex);" id="sts" name ="stt" class="form-control" required></select>
+                                <label class="form-label" for="form3Examplea9">State</label>
+                            </div>
+        
+                            </div>
+                            <div class="col-md-7 mb-2 pb-1">
+        
+                              <div class="form-outline form-white">
+                                <select id ="state" class="form-control" required name="city" required></select>
+                                <label class="form-label" for="form3Examplea9">City</label>
+                              </div>
+        
+                            </div>
+                          </div>
+                        
+                          <div class="mb-2 pb-1">
+                            <div class="form-outline">
+                              <input name="email" type="text" id="donorEmail" class="form-control form-control-lg" />
+                              <label class="form-label" for="form3Examplev4">Address</label>
+                            </div>
+                          </div>
+
+                          <div class="mb-2 pb-1">
+                            <div class="form-outline">
+                              <input name="email" type="url" id="donorEmail" class="form-control form-control-lg" />
+                              <label class="form-label" for="form3Examplev4">NGO Website Link</label>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-7 mb-2 pb-1">
+        
+                                <div class="form-outline">
+                                    <input name="email" type="email" id="donorEmail" class="form-control form-control-lg" />
+                                    <label class="form-label" for="form3Examplev4">Email</label>
+                                  </div>
+        
+                            </div>
+                            <div class="col-md-5 mb-2 pb-1">
+        
+                                <div class="form-outline">
+                                    <input name="email" type="tel" id="donorEmail" class="form-control form-control-lg" />
+                                    <label class="form-label" for="form3Examplev4">Contact No.</label>
+                                  </div>
+        
+                            </div>
+                          </div>
+
+                          <div class="mb-2 pb-1">
+                            <div class="form-outline">
+                              <input name="email" type="url" id="donorEmail" class="form-control form-control-lg" />
+                              <label class="form-label" for="form3Examplev4">Proposal Link</label>
+                            </div>
+                          </div>
+
+                        
+      
+                        <!-- <button type="submit" class="btn btn-light btn-lg"
+                          data-mdb-ripple-color="dark">Register</button> -->
+
+                          <div class="text-center text-lg-start mt-4 pt-2">
+                            <button type="submit" class="btn btn-light btn-lg" >Submit</button>
+                            
+                          </div>
+      
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </form>
+      </section>
+  <script language="javascript">print_state("sts");</script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>
